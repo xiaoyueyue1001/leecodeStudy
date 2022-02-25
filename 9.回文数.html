@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回文数</title>
+</head>
+
+<body>
+    <script>
+        function isFlag(number) {
+            if(number < 0){
+                // 负数不为回文
+                return false
+            }
+            if(number < 10){
+                // 个位数为回文
+                return true
+            }
+            if(number > 9 && number % 10 === 0){
+                // 被10整除非0点数不为回文
+                return false
+            }
+            let revertedNumber = 0;
+            let flag = false;
+            while (true) {
+                let bit = number % 10; // 取个位
+                number = Math.floor(number / 10);  // 更新number，去掉最后一位，取前n-1位
+                revertedNumber = 10 * revertedNumber + bit;
+                if (number === revertedNumber || number === Math.floor(revertedNumber / 10)) {
+                    // 偶数  || 奇数
+                    flag = true;
+                    break;
+                }
+                if (revertedNumber > number) {
+                    // 表示过半
+                    break;
+                }
+            }
+            return flag
+        }
+
+        function formatDate(date) {
+            return strList = date.toLocaleDateString().split("/").map(item=>{
+                if(item.length === 1){
+                    return "0"+item
+                } else{
+                    return item
+                }
+            }).join("")
+        }
+
+        let now = new Date().getTime();
+        while(now > 0){
+            let value = formatDate(new Date(now));
+            if(isFlag(value)){
+                console.log(value)
+            }
+            now -= 86400000
+        }
+    </script>
+</body>
+
+</html>

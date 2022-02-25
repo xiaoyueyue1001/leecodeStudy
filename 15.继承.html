@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>继承</title>
+</head>
+
+<body>
+    <div>111</div>
+    <script>
+        function Father(fName) {
+            this.fName = fName;
+            this.list = [1, 2, 3];
+        }
+        Father.prototype.callList = function(){
+            return this.list
+        }
+
+        function Son(fName, sName) {
+            Father.call(this, fName);
+            this.sName = sName;
+        }
+
+        function extents(superClass, subClass) {
+            const prototype = Object.create(superClass.prototype);
+            prototype.constructor = subClass;
+            subClass.prototype = prototype;
+        }
+
+        extents(Father, Son);
+
+        let s1 = new Son("w", "www");
+        s1.list.push(4);
+        let s2 = new Son("y", "yy");
+        let f1 = new Father("z");
+        console.log(s1, s2,f1);
+        console.log(s1.callList(),s2.callList(),f1.callList())
+    </script>
+</body>
+
+</html>

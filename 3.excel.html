@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Excel</title>
+</head>
+
+<body>
+    <div class="d" onclick="download()">下载</div>
+    <script>
+        let obj = [
+            { a: "1", b: "2", c: "3" },
+            { a: "11", b: "22", c: "33" },
+        ]
+
+        let excelBlob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/vnd.ms-excel' })
+
+
+        function download() {
+            var oA = document.createElement('a');
+            // 利用URL.createObjectURL()方法为a元素生成blob URL
+            oA.href = URL.createObjectURL(excelBlob);
+            // 给文件命名
+            oA.download = '学生名单.xls';
+            // 模拟点击
+            oA.click();
+        }
+    </script>
+</body>
+
+</html>

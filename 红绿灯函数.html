@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红绿灯函数</title>
+</head>
+
+<body>
+    <script>
+        function light() {
+            let date = new Date().getTime();
+            let queue = [];
+
+            // 执行队列 使用setTimeout放置异步队列
+            setTimeout(() => {
+                next()
+            })
+
+            function next() {
+                let fn = queue.shift();
+                fn && fn();
+            }
+
+
+            function sleep(time) {
+                let fn = () => {
+                    setTimeout(() => {
+                        next();
+                    }, time)
+                }
+                queue.push(fn);
+                return data;
+            }
+
+            function print(text) {
+                let fn = () => {
+                    console.log(text);
+                    console.log("间隔时间", new Date().getTime() - date);
+                    next();
+                }
+                queue.push(fn);
+                return data;
+            }
+
+            let data = {
+                print,
+                sleep
+            }
+
+            return data
+        }
+        light().sleep(1000).print("aaa").sleep(2000).print("bbb").print("ccc").sleep(3000).print("ddd")
+    </script>
+</body>
+
+</html>

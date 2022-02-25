@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26进制</title>
+</head>
+
+<body>
+    <script>
+        // 1 -->  A
+        // ...
+        // ...
+        // 26 --> Z
+        // 27 --> AA
+        // 28 --> AB
+        // ...
+        // ...
+        // 26*27 --> ZZ
+
+        function transfer(number, bitList = []) {
+            let bit = number % 26 || 26;
+            let surplus = (number - bit) / 26;
+
+            bitList.unshift(bit);
+            if (surplus) {
+                return transfer(surplus, bitList)
+            } else {
+                return bitList
+            }
+        }
+
+        function transferWrap(number) {
+            let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let arr = transfer(number)
+            return arr.map(item => str[item - 1]).join("")
+        }
+        console.log(transferWrap(1))
+        console.log(transferWrap(26))
+        console.log(transferWrap(27))
+        console.log(transferWrap(26 * 27))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20. 有效的括号</title>
+</head>
+
+<body>
+    <script>
+        function fn(s) {
+
+            if (s.length % 2 === 1) {
+                return false
+            }
+            const pairs = new Map([
+                ['(', ')'],
+                ['[', ']'],
+                ['{', '}']
+            ]);
+            let stack = [];
+            for (let i = 0; i < s.length; i++) {
+                let currentS = pairs.get(s[i])
+                if (currentS) {
+                    stack.push(currentS)
+                } else {
+                    if (s[i] === stack[stack.length - 1]) {
+                        stack.pop()
+                    } else {
+                        stack.push(s[i] )
+                        break;
+                    }
+                }
+            }
+            return !stack.length
+        }
+    </script>
+</body>
+
+</html>

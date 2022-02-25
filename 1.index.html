@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .tabs {
+            display: flex;
+            width: 100%;
+            border: 1px solid #ccc;
+            white-space: nowrap;
+            overflow-x: auto;
+            height: 50px;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .tab {
+            color: #282828;
+            min-width: 200px;
+            background-color: #eee;
+            text-align: center;
+            margin-right: 20px;
+            cursor: pointer;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .active {
+            color: #ff4800;
+            height: 40px;
+            line-height: 40px;
+            border:1px solid #ccc;
+        }
+        video{
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tabs">
+        <div data-name="0" class="tab active">11111</div>
+        <div data-name="1" class="tab">22222</div>
+        <div data-name="2" class="tab">33333</div>
+    </div>
+    <video   width="300px" controls  src="./mp4.mp4"> </video>
+    <script>
+        var tabs = document.querySelector('.tabs');
+        tabs.addEventListener('click', function (e) {
+            document.querySelectorAll(".tab").forEach((dom,index)=>{
+                if(index == e.target.dataset.name){ 
+                    dom.setAttribute("class","tab active")
+                } else {
+                    dom.setAttribute("class","tab")
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调度算法</title>
+</head>
+
+<body>
+    <script>
+        // 最多同时运行两个任务
+        const startTime = new Date().getTime();
+
+        class Scheduler {
+            constructor() {
+                this.taskList = []; // 等待任务列表
+                this.count = 0; // 正在进行的任务数
+                this.maxTaskNum = 3;// 最大任务数
+            }
+            addTask(task){
+                const effect = ()=>{
+                    this.count++;
+                    task().then(()=>{
+                        this.count--;
+                        this.statTask();
+                    })
+                }
+                this.taskList.push(effect);
+                this.statTask();
+            }
+            statTask(){
+               if(this.count < this.maxTaskNum && this.taskList.length){
+                   let effect = this.taskList.shift();
+                   effect();
+               }
+            }
+        }
+
+        const task = (time,order) => {
+            return () => new Promise(resolve=>{
+                setTimeout(()=>{
+                    console.log(`正在执行任务${order}，时间间隔为：${new Date().getTime() - startTime}`);
+                    resolve();
+                },time)
+            })
+        }
+
+        let s = new Scheduler();
+        s.addTask(task(1000,1));
+        s.addTask(task(500,2));
+        s.addTask(task(300,3));
+        s.addTask(task(400,4));
+
+        // s.addTask(task(200,1));
+        // s.addTask(task(2000,2));
+        // s.addTask(task(300,3));
+        // s.addTask(task(400,4));
+    </script>
+</body>
+
+</html>

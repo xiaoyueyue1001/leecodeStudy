@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大数加法</title>
+</head>
+<body>
+    <script>
+        function fn(a,b){
+            let i = a.length - 1;
+            let j = b.length - 1;
+            let flag = 0;
+            let res = '';
+            while(i >=0 || j >=0 || flag){
+                let n1 = +a[i--] || 0;
+                let n2 = +b[j--] || 0;
+                let temp = n1 + n2 + flag;
+                
+                flag = Math.floor(temp/2);
+                temp = temp % 2;
+                res = temp + res;
+            }
+            return res
+        }
+
+        console.log(fn("1111","0001"))
+    </script>
+</body>
+</html>

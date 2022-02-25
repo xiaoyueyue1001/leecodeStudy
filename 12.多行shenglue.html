@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多行省略</title>
+</head>
+<body>
+    <div class="box">
+        <!-- 文字 -->
+        <div class="box__text">1234567891点撒几大本命去外面北京打工对啊不会被几大本命去外面北京打工对啊不会被打死不对劲啊看过的撒的撒到大撒比将扩大跨境电商空间都会撒娇快点撒几大本命去外面北京打工对啊不会被打死不对劲啊看过的撒的撒到</div>
+        <!-- 占位 -->
+        <div class="box__placeholder"></div>
+        <!-- 自定义省略 -->
+        <div class="box__more">...展开</div>
+    </div>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 50%;
+            position: relative;
+            /* overflow: hidden; */
+            height: 60px;
+        }
+        .box__text{
+            width: 100%;
+            line-height: 20px;
+            float: right;
+            margin-left: -60px;
+        }
+        .box__placeholder{
+            width: 60px;
+            height: 60px;
+            opacity: 0.8;
+            float: right;
+        }
+        .box__more{
+            width: 60px;
+            text-align: right;
+            color: #1890ff;
+            background-color: #fff;
+            float: right;
+            position: relative;
+            left: 100%;
+            transform: translate(-100%,-100%);
+        }
+    </style>
+</body>
+</html>

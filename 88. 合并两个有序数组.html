@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>88. 合并两个有序数组</title>
+</head>
+<body>
+    <script>
+        function fn(nums1, m, nums2, n){
+            let p1 = 0;
+            let p2 = 0;
+            let array = [];
+            while(p1 < m && p2 < n){
+                if(nums1[p1] < nums2[p2]){
+                    array.push(nums1[p1++])
+                } else {
+                    array.push(nums2[p2++])
+                }
+            }
+            if( p1 < m){
+                array.push(...nums1.splice(p1,m - p1))
+            }
+            if( p2 < n){
+                array.push(...nums2.splice(p2,n - p2))
+            }
+            for (let i = 0; i < array.length; i++) {
+                nums1[i] = array[i]
+                
+            }
+            return array
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扁平数据结构转Tree</title>
+</head>
+
+<body>
+    <script>
+        let arr = [
+            { idd: 3, name: '部门3', ppid: 1 },
+            { idd: 4, name: '部门4', ppid: 3 },
+            { idd: 5, name: '部门5', ppid: 4 },
+            { idd: 1, name: '部门1', ppid: null },
+            { idd: 11, name: '部门11', ppid: null },
+            { idd: 2, name: '部门2', ppid: 1 },
+            { idd: 22, name: '部门22', ppid: 11 },
+        ]
+        // let arr = [
+        //     { id: 3, name: '部门3', pid: 1 },
+        //     { id: 4, name: '部门4', pid: 3 },
+        //     { id: 5, name: '部门5', pid: 4 },
+        //     { id: 1, name: '部门1', pid: null },
+        //     { id: 11, name: '部门11', pid: null },
+        //     { id: 2, name: '部门2', pid: 1 },
+        //     { id: 22, name: '部门22', pid: 11 },
+        // ]
+
+        /**
+        * 递归查找，获取children
+        */
+        const arrayToTree1 = (data, result = [], pid) => {
+            for (const item of data) {
+                if (item.pid === pid) {
+                    const newItem = { ...item, children: [] };
+                    result.push(newItem);
+                    arrayToTree(data, newItem.children, item.id);
+                }
+            }
+            return result
+        }
+
+        /**
+         * 2次循环法
+        */
+        function arrayToTree2(items) {
+            const result = [];   // 存放结果集
+            const itemMap = {};  // 
+
+            // 先转成map存储
+            for (const item of items) {
+                itemMap[item.id] = { ...item, children: [] }
+            }
+
+            for (const item of items) {
+                const id = item.id;
+                const pid = item.pid;
+                const treeItem = itemMap[id];
+                if (pid === 0) {
+                    result.push(treeItem);
+                } else {
+                    if (!itemMap[pid]) {
+                        itemMap[pid] = {
+                            children: [],
+                        }
+                    }
+                    itemMap[pid].children.push(treeItem)
+                }
+
+            }
+            console.log("itemMap", itemMap)
+            return result;
+        }
+
+        /**
+         * 单次循环法（最优解）
+        */
+
+        function arrayToTree3(items) {
+            const result = [];   // 存放结果集
+            const itemMap = {};  // 存放中间对象
+
+            for (const item of items) {
+                const id = item.id; // 自身id
+                const pid = item.pid; // 父级id
+
+                // 取值前先判断中间对象是否有值
+                if (!itemMap[id]) {
+                    itemMap[id] = { ...item, children: [] }
+                } else if(!itemMap[id].id){
+                    itemMap[id] = { ...item, children: [...(itemMap[id].children || [])] }
+                }
+                const treeItem = itemMap[id];
+
+                // 获取父元素,并将其加入到父元素的子级列表
+                if(!itemMap[pid]){
+                    itemMap[pid] = {children:[]}
+                } 
+                if(!treeItem.pid){
+                    result.push(treeItem)
+                }
+                itemMap[pid].children.push(treeItem);
+            }
+            console.log("itemMap",itemMap);
+            return result
+        }
+
+        /**
+         * 单次循环法（最优解）(参数抽离最终版)
+         * []=>[],根节点pid为null
+        */
+        function arrayToTree(items,options = {}) {
+            // 获取配置（动态键名）
+            let defaultOptions = {
+                id:"id",
+                pid:"pid",
+                children:"children"
+            }
+            options = {
+                ...defaultOptions,
+                ...options
+            }
+            let idKey = options.id;
+            let pidKey = options.pid;
+            let childrenKey = options.children;
+            const result = [];   // 存放结果集
+            const itemMap = {};  // 存放中间对象
+
+            for (const item of items) {
+                const id = item[idKey]; // 自身id
+                const pid = item[pidKey]; // 父级id
+
+                // 取值前先判断中间对象是否有值(节点存在3种情况，已初始化，未初始化，未初始化但含有子节点信息（子节点先与父节点初始化时，会先半初始化父点）)
+                if (!itemMap[id]) {
+                    // 数据不存在，且无子节点信息，则初始化数据
+                    itemMap[id] = { ...item, [childrenKey]: [] }
+                } else if(itemMap[id].__init){
+                    // 数据不存在但已经初始化，说明含有子节点信息，字节点先于父节点初始化，在初始化父节点时应带着之前的子节点信息
+                    delete itemMap[id].__init;
+                    itemMap[id] = { ...item, ...itemMap[id] }
+                }
+                const treeItem = itemMap[id];
+
+                // 获取父元素,并将其加入到父元素的子级列表
+                if(!itemMap[pid]){
+                    // 初始化父节点信息，并标记
+                    itemMap[pid] = {[childrenKey]:[],__init:true}
+                } 
+                itemMap[pid][childrenKey].push(treeItem);
+
+                // 将根节点加入数组，等待返回。
+                if(!treeItem[pidKey]){
+                    result.push(treeItem)
+                }
+            }
+            return result
+        }
+
+        /**
+         * []=>[],根节点pid为null
+        */
+        function treeToArray (tree,options={},pid = null,result=[]){
+            // 获取配置（动态键名）
+            let defaultOptions = {
+                id:"id",
+                pid:"pid",
+                children:"children"
+            }
+            options = {
+                ...defaultOptions,
+                ...options
+            }
+            let idKey = options.id;
+            let pidKey = options.pid;
+            let childrenKey = options.children;
+
+            for(const item of tree){
+                let newItem  = {
+                    ...item,
+                    [pidKey]:pid,
+                };
+                delete newItem[childrenKey]
+                result.push(newItem)
+                treeToArray((item[childrenKey]||[]),options,item[idKey],result);
+            }
+            return result
+        }
+
+        let tree = arrayToTree(arr,{id:"idd",pid:"ppid",children:"list"})
+        console.log("tree", tree);
+        let array = treeToArray(tree,{id:"idd",pid:"ppid",children:"list"})
+        console.log("array", array);
+
+    </script>
+</body>
+
+</html>

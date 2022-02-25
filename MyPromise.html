@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyPromise</title>
+</head>
+
+<body>
+    <script>
+        class MyPromise {
+            constructor(executor) {
+                this.status = "pending" // resolved rejected
+                this.fulfilledCallbacks = [] // 成功的函数队列
+                this.rejectedCallbacks = [] // 失败的函数队列
+                this.value = "";
+
+                const resolve = (value) => {
+                    if (this.status === 'pending') {
+                        this.status = 'resolved'
+                        this.value = value
+                        this.fulfilledCallbacks.forEach(myFn => myFn(this.value)) //执行回调方法
+                    }
+
+                }
+                const reject = (value) => {
+                    if (this.status === 'pending') {
+                        this.status = 'rejected'
+                        this.value = value
+                        this.rejectedCallbacks.forEach(myFn => myFn(this.value)) //执行回调方法
+                    }
+                }
+
+
+                executor(resolve, reject);
+            }
+            then(onFulfilled, onRejected) {
+                if (this.status === "pending") {
+                    // 等待状态，添加回调函数到成功的函数队列
+                    this.fulfilledCallbacks.push(onFulfilled)
+                    // 等待状态，添加回调函数到失败的函数队列
+                    if (onRejected) {
+                        this.rejectedCallbacks.push(onRejected)
+                    }
+                }
+                return this
+            }
+            catch(onRejected) {
+                if (this.status === "pending") {
+                    // 等待状态，添加回调函数到失败的函数队列
+                    this.rejectedCallbacks.push(onRejected)
+                }
+                return this
+            }
+        }
+
+        function fn() {
+            return new MyPromise((resolve, reject) => {
+                setTimeout(() => {
+                    if (Math.random() > 0.5) {
+                        resolve("随机值大于0.5")
+                    } else {
+                        reject("随机值小于0.5")
+                    }
+                }, 500)
+            })
+
+        }
+
+        fn()
+            .then(
+                res => {
+                    console.log("promise success!", res)
+                },
+                err => {
+                    console.log("promise err!", err)
+                })
+            .catch(err => {
+                console.log("promise err!2", err)
+            })
+    </script>
+</body>
+
+</html>

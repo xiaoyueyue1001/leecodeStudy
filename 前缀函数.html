@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前缀函数</title>
+</head>
+<body>
+    <script>
+        function fn(str){
+            // ABCABC
+            // res[4] = 2;(ABCAB的公共前缀是AB长度是2)
+            let res = new Array(str.length).fill(0)
+            let k = 0; // 当前前后缀长度
+            for(let i = 1;i < str.length;i++){
+                while(k > 0 && str[i] !== str[k]){
+                    // 前缀新增元素 ！= 后缀新增元素，增不停的获取公共前后缀的公共前后缀，直到 长度为0 || 前缀新增元素 == 后缀新增元素
+                    k = res[k - 1]
+                }
+                if(k === 0){
+                    // debugger
+                }
+                if(str[i] === str[k]){
+                    // 前缀新增元素 == 后缀新增元素，则公共前后缀长度+1
+                    k++
+                }
+                res[i] = k
+            }
+            return res 
+        }
+        console.log(fn("BABCABCA"))
+    </script>
+</body>
+</html>

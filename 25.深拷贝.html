@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝</title>
+</head>
+
+<body>
+    <script>
+        console.log("-------------环引用深拷贝1------------------")
+        let a = { b: 2 };
+        a.c = a;
+        let a_copy = { ...a }
+        let a_copy_deep = deepClone(a);
+        a.b = 22;
+        console.log("a          ", a)
+        console.log("a_copy     ", a_copy)
+        console.log("a_copy_deep", a_copy_deep)
+
+
+        console.log("-------------环引用深拷贝2------------------")
+        let obj_a = {};
+        let obj_b = { a: obj_a, c: 2 };
+        obj_a.b = obj_b;
+        let obj_a_copy = { ...obj_a }
+        let obj_a_copy_deep = deepClone(obj_a);
+        obj_b.c = 22;
+        console.log("obj_a          ", obj_a)
+        console.log("obj_a_copy     ", obj_a_copy)
+        console.log("obj_a_copy_deep", obj_a_copy_deep)
+
+
+
+
+        function deepClone(originObj, map = new WeakMap()) {
+            if (!originObj || typeof originObj != 'object') {
+                return originObj
+            }
+
+            if (originObj instanceof Date) {
+                return new Date(originObj)
+            }
+            if (originObj instanceof RegExp) {
+                return new RegExp(originObj)
+            }
+
+            // 拷贝之前查询其是否已经被记录了，如有则直接取值，否则拷贝后记录在map（这样可以防止环引用）
+            if (map.get(originObj)) {
+                return map.get(originObj)
+            }
+            // 拷贝容器
+            let result = Array.isArray(originObj) ? [] : {};
+            map.set(originObj, result);
+
+            //获取需拷贝对象的所有键名
+            // let keys = Object.keys(originObj);
+            // for (let i = 0; i < keys.length; i++) {
+            //     let key = keys[i];
+            //     let temp = originObj[key];
+            //     result[key] = deepClone(temp, map);
+            // }
+            for(let key in originObj){
+                result[key] = deepClone(originObj[key],map)
+            }
+            return result
+        }
+    </script>
+</body>
+
+</html>

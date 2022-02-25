@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>67. 二进制求和</title>
+</head>
+<body>
+    <script>
+        function fn(a,b){
+            let m = a.length;
+            let n = b.length;
+            let i = 1;
+            let j = 1;
+            let res = "";
+            let isBit = 0;
+            while(i < m && j < n){
+                // let ans = a[m - i] ^ b[n - 1];
+                currentIsBit = a[m - i] & b[n - 1];
+                if(currentIsBit){
+                    ans =  isBit
+                } else {
+                    ans = a[m - i] ^ b[n - 1]
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去标签</title>
+</head>
+
+<body>
+    <script>
+        let str = `<img src="www.baidu.com">11111</img>`
+
+        // 获取dom中的文字
+        function getTextFromDomString(DomString) {
+            let dom = document.createElement("div");
+            dom.innerHTML = DomString;
+            let textString = dom.innerText;
+            return textString
+        }
+
+        console.log("strText",getTextFromDomString(str))
+    </script>
+</body>
+
+</html>

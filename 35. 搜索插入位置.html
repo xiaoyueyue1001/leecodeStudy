@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>35. 搜索插入位置</title>
+</head>
+<body>
+    <script>
+        function fn(nums, target){
+            // 左开右闭写法 所以数组值为[0,len)
+            let left = 0;
+            let right = nums.length;
+            while(left < right){
+                let mid = left + Math.floor((right - left)/2); // 向下取整，并防止大数溢出
+                if(nums[mid] < target ){
+                    left = mid + 1
+                } else {
+                    right = mid
+                }
+            }
+            return [left,right]
+        }
+    </script>
+</body>
+</html>

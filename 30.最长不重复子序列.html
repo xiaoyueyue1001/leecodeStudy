@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最长不重复子序列</title>
+</head>
+<body>
+    <script>
+        function fn1(arr){
+            let max = [];
+            for(let i = 0; i < arr.length;i++){
+                let j = i;
+                let itemMax = {len:0,index:0};
+                while(j < arr.length){
+                    let preSubStr = arr.slice(i,j);
+                    // console.log("preSubStr",preSubStr);
+                    let index = preSubStr.indexOf(arr[j]);
+                    if(index === -1){
+                        itemMax = {
+                            len:j - i + 1,
+                            index:i,
+                            subStr:preSubStr + arr[j]
+                        };
+                        j++
+                    } else {
+                        break;
+                    }
+                }
+                max.push(itemMax)
+            }
+            return max
+        }
+        function fn2(arr){
+            let max = []
+            for(let i = 0; i < arr.length;i++){
+                let j = i;
+                let itemMax = {len:0,index:0};
+                while(j < arr.length){
+                    let preSubStr = arr.slice(i,j);
+                    // console.log("preSubStr",preSubStr);
+                    let index = preSubStr.indexOf(arr[j]);
+                    if(index === -1){
+                        itemMax = {
+                            index:i,
+                            len:itemMax.len+1,
+                            subStr :preSubStr+arr[j]
+                        };
+                        j++;
+                    } else {
+                        i += index;
+                        break;
+                    }
+                }
+                max.push(itemMax)
+            }
+            let maxLen = Math.max(...max.map(item=>item.len));
+            return max.find(item=>item.len === maxLen)
+        }
+
+        let str = "dsbdhabkdbadugiuyioqdvjhvnavhcak"
+        console.log(fn1(str))
+        console.log(fn2(str))
+    </script>
+</body>
+</html>

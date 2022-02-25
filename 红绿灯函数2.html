@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红绿灯函数</title>
+</head>
+
+<body>
+    <script>
+        function light() {
+            let totalTime = 0;
+
+
+            let type = (txt) => {
+                setTimeout(() => {
+                    console.log(txt);
+                }, totalTime);
+                return data
+            }
+
+            let timer = (time) => {
+                totalTime += time;
+                return data
+            }
+
+            let data = {
+                type,
+                timer
+            }
+
+            return data
+        }
+        light().timer(1000).type("aaa").timer(2000).type("bbb").timer(3000).type("ccc")
+    </script>
+</body>
+
+</html>

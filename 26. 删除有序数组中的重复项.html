@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26. 删除有序数组中的重复项</title>
+</head>
+
+<body>
+    <script>
+        function fn(array) {
+            if (array.length < 2) {
+                return array.length
+            }
+            let slow = 1;
+            for (let fast = 1; fast < array.length; fast++) {
+                if (array[fast] !== array[fast - 1]) {
+                    array[slow] = array[fast]
+                    slow++
+                }
+            }
+            return array.slice(0,slow);
+        }
+
+        let arr = fn([1,2,2,3,4,4,4,5,7,7]);
+        console.log("arr",arr);
+    </script>
+</body>
+
+</html>

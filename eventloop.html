@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>event-loop</title>
+</head>
+
+<body>
+    <script>
+        let s1 = setTimeout(function () {
+            console.log(17)
+        });
+        let p1 = new Promise(resolve => {
+            console.log(1);
+            resolve();
+        })
+            .then(() => {
+                console.log(2);
+                let p2 = new Promise(resolve => {
+                    console.log(3);
+                    resolve();
+                })
+                    .then(() => {
+                        console.log(4);
+                    })
+                    .then(() => {
+                        console.log(7);
+                    })
+                    .then(() => {
+                        console.log(11);
+                    })
+                    .then(() => {
+                        console.log(15);
+                    });
+            })
+            .then(() => {
+                console.log(5);
+                let p3 = new Promise((resolve => {
+                    console.log(6);
+                    resolve()
+                }))
+                    .then(() => {
+                        console.log(8);
+                        let p4 = new Promise((resolve) => {
+                            console.log(9);
+                            resolve()
+                        })
+                            .then(() => {
+                                console.log(12);
+                            })
+                            .then(() => {
+                                console.log(16);
+                            })
+                    })
+                    .then(() => {
+                        console.log(13);
+                    })
+            })
+            .then(() => {
+                console.log(10);
+            })
+            .then(() => {
+                console.log(14);
+            })
+
+            
+        let s2 = setTimeout(function () {
+            console.log(18)
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // 当页面刷新时，从sessionStorage恢复之前输入的内容
+        window.onload = function () {
+            if (window.sessionStorage) {
+                var name = window.sessionStorage.getItem("name");
+                if (name != "" || name != null) {
+                    document.getElementById("name").value = name;
+                }
+            }
+        };
+
+        // 将数据保存到sessionStorage对象中
+        function saveToStorage() {
+            if (window.sessionStorage) {
+                var name = document.getElementById("name").value;
+                window.sessionStorage.setItem("name", name);
+                window.location.href = "session_storage.html";
+            }
+        }
+    </script>
+
+    <form action="./session_storage.html">
+        <input type="text" name="name" id="name" />
+        <input type="button" value="Save" onclick="saveToStorage()" />
+    </form>
+</body>
+
+</html>

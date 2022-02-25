@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合并有序数组</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 合并2个有序数组a,b，将b的元素塞入a数组，a提前预留还b的位置
+        */
+
+        // 方法1  n*(m+n)
+        // function fn(a, m, b, n) {
+        //     let pointA = 0;
+        //     b.forEach(itemB => {
+        //         while (a[pointA] < itemB) {
+        //             pointA++;
+        //             if(pointA >= m){
+        //                 pointA = m;
+        //                 break;
+        //             }
+        //         }
+        //         moveOneStep(a,pointA,itemB);
+        //         m++;
+        //     })
+        //     return a
+        // }
+
+        // function moveOneStep (arr,index,value){
+        //     let startIndex = arr.length - 1;
+        //     while(startIndex > index){
+        //         arr[startIndex] = arr[startIndex - 1];
+        //         startIndex--;
+        //     }
+        //     arr[index] = value
+        // }
+
+        [1, 4, 7, 0, 0, 0, 0], m = 3,
+            [2, 5, 10, 11], n = 4
+        function fn(a, m, b, n) {
+            let pointA = m - 1;
+            let pointB = n - 1;
+            let tail = m + n - 1;
+            while (pointA >= 0 && pointB >= 0) {
+                if (a[pointA] < b[pointB]) {
+                    a[tail] = b[pointB];
+                    pointB--;
+                } else {
+                    a[tail] = a[pointA];
+                    a[pointA] = 0;
+                    pointA--;
+                }
+                tail--;
+            }
+            return a
+        }
+
+        console.log(fn([1, 4, 7, 0, 0, 0, 0], 3, [2, 5, 10, 11], 4));
+    </script>
+</body>
+
+</html>

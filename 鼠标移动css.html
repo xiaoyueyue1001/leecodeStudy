@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标移动css</title>
+    <style>
+        #container {
+            width: 600px;
+            height: 600px;
+            background-color: #202344;
+            position: relative;
+            --x: 0px;
+            --y: 0px;
+            overflow: hidden;
+        }
+
+        #container:before {
+            content: "";
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle closest-side, pink, transparent);
+            transform: translate(-50%, -50%);
+        }
+
+        #container:hover:before {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        let container = document.getElementById("container");
+        container.addEventListener("mousemove", (e) => {
+            console.log("鼠标在动");
+            let rect = e.target.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+            container.style.setProperty("--x", x + "px");
+            container.style.setProperty("--y", y + "px");
+        });
+
+    </script>
+</body>
+
+</html>

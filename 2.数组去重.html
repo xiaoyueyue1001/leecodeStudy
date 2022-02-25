@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组去重</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.unique = function () {
+            var temp = new Map();
+            var arr = [];
+            var len = this.length;
+            for (var i = 0; i < len; i++) {
+                if (!temp.get(this[i])) {
+                    temp.set(this[i],'abc');
+                    arr.push(this[i])
+                }
+            }
+            return arr
+        }
+
+        let obj1 = { a: "a" };
+        let obj2 = { b: "b" };
+        let a = [1, 2, obj1, obj1, obj2,{ b: "b" }, 3, 4, 3, 2, 1, 1, 1, 18, 9];
+        console.log("a.unique", a.unique());
+    </script>
+</body>
+
+</html>

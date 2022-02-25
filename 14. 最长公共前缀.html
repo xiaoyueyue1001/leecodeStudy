@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14. 最长公共前缀</title>
+</head>
+
+<body>
+    <script>
+        function fn(array) {
+            let minLen = array[0].length;
+            let minLenIndex = 0;
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].length < minLen) {
+                    minLen = array[i].length;
+                    minLenIndex = i;
+                }
+            }
+
+            let minLenStr = array[minLenIndex];
+
+            let commentStrArray = [];
+            for (let i = 0; i < minLenStr.length; i++) {
+                let currentS = minLenStr[i];
+                let isCommon = true;
+                for (let j = 0; j < array.length; j++) {
+                    if (array[j][i] !== currentS) {
+                        isCommon = false;
+                        break;
+                    }
+                }
+                if(isCommon){
+                    commentStrArray.push(currentS)
+                } else {
+                    break;
+                }
+            }
+            return commentStrArray.join("")
+
+        }
+    </script>
+</body>
+
+</html>

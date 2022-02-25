@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树的最小深度</title>
+</head>
+
+<body>
+    <script>
+        class Node {
+            constructor(val, left = null, right = null) {
+                this.val = val;
+                this.left = left;
+                this.right = right;
+            }
+        }
+
+        let node4 = new Node(4)
+        let node5 = new Node(5)
+        let node6 = new Node(6)
+        let node7 = new Node(7)
+
+        let node2 = new Node(2,node4,node5)
+        let node3 = new Node(3,node6,node7)
+
+        let node1 = new Node(1,node2,node3)
+
+
+
+        function fn(root){
+            if(root === null){
+                return 0
+            } 
+            if(!(root.left || root.right)){
+                return 1
+            }
+
+            let min = Infinity;
+            if(root.left){
+                min = Math.min(min,fn(root.left))
+            }
+            if(root.right){
+                min = Math.min(min,fn(root.right))
+            }
+
+            return min + 1
+        }
+
+        console.log(fn(node1))
+    </script>
+</body>
+
+</html>

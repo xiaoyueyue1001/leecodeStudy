@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Loop</title>
+</head>
+
+<body>
+    <script>
+        console.log(1);
+
+        setTimeout(() => {
+            console.log(5);
+
+            let p2 = new Promise(resolve => {
+                console.log(6);
+                resolve();
+            })
+            p2.then(() => {
+                console.log(7)
+            })
+        }, 0)
+
+
+
+        let p1 = new Promise(resolve => {
+            console.log(2);
+            resolve();
+        })
+        p1.then(() => {
+            console.log(4)
+        })
+
+
+        setTimeout(() => {
+            console.log(8);
+
+            let p3 = new Promise(resolve => {
+                console.log(9);
+                resolve();
+            })
+            p3.then(() => {
+                console.log(10)
+            })
+        }, 0)
+
+        console.log(3)
+    </script>
+
+    <script>
+        console.log(11);
+
+        setTimeout(() => {
+            console.log(55);
+
+            let p22 = new Promise(resolve => {
+                console.log(66);
+                resolve();
+            })
+            p22.then(() => {
+                console.log(77)
+            })
+        }, 0)
+
+
+
+        let p11 = new Promise(resolve => {
+            console.log(22);
+            resolve();
+        })
+        p11.then(() => {
+            console.log(44)
+        })
+
+
+        setTimeout(() => {
+            console.log(88);
+
+            let p33 = new Promise(resolve => {
+                console.log(99);
+                resolve();
+            })
+            p33.then(() => {
+                console.log(1010)
+            })
+        }, 0)
+
+        console.log(33)
+    </script>
+</body>
+
+</html>

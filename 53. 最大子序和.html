@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>53. 最大子序和</title>
+</head>
+
+<body>
+    <script>
+        function fn(array) {
+            // 初始化
+            let preMax = array[0]
+            let pre = 0
+            array.forEach(x => {
+                pre = Math.max(pre + x, x);
+                preMax = Math.max(pre, preMax);
+            })
+            return preMax;
+        }
+    </script>
+</body>
+
+</html>

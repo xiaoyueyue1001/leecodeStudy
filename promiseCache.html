@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        class Watcher {
+            watchMap = {};
+
+            add({ cacheId, resolve, reject }) {
+                // 依赖收集
+                if (this.watchMap[cacheId]) {
+                    this.watchMap[cacheId].push({ resolve, reject })
+                } else {
+                    this.watchMap[cacheId] = [{ resolve, reject }]
+                }
+            }
+            done({ cacheId, res }) {
+                if (this.watchMap[cacheId] && this.watchMap[cacheId].length > 0) {
+                    this.watchMap[cacheId].forEach(item => {
+                        item.resolve(res)
+                    })
+                    this.watchMap[cacheId] = null;
+                }
+            }
+            fail({ cacheId, err }) {
+                if (this.watchMap[cacheId] && this.watchMap[cacheId].length > 0) {
+                    this.watchMap[cacheId].forEach(item => {
+                        item.reject(err)
+                    })
+                    this.watchMap[cacheId] = null;
+                }
+            }
+        }
+
+        class CacheSpace {
+            constructor(name) {
+                this.name = name;
+            }
+            cacheMap = new Map(); // 存储缓存结果
+            watcher = new Watcher();
+        }
+        let cacheSpaceList = [];
+        // 获取头像(并发处理缓存版)
+        function cahcePromise(promiseObj, { isFromCache = true, params = {} }) {
+            //  获取当前promise对应都缓存空间  如果存在则获取之前都 不存在则新建一个并放入缓存空间列表
+            let cacheSpace = cacheSpaceList.find(item => item.name === promiseObj);
+            if (!cacheSpace) {
+                cacheSpace = new CacheSpace(promiseObj);
+                cacheSpaceList.push(cacheSpace);
+            }
+
+            let cacheId = JSON.stringify(params);
+            return new Promise((resolve, reject) => {
+                // 从缓存中获取
+                if (cacheSpace.cacheMap.has(cacheId) && isFromCache) {
+                    let cache = cacheSpace.cacheMap.get(cacheId);
+                    switch (cache.status) {
+                        case "done":
+                            resolve(cache.res)
+                        case "waitting":
+                            cacheSpace.watcher.add({ cacheId, resolve, reject })
+                            break;
+                        case "fail":
+                            reject(cache.err)
+                            break;
+                        default:
+                            break;
+                    }
+                    return
+                }
+
+                cacheSpace.cacheMap.set(cacheId, { status: "waitting", res: {} });
+                promiseObj(params).then(res => {
+                    cacheSpace.cacheMap.set(cacheId, { status: "done", res });
+                    // 事件派发
+                    cacheSpace.watcher.done({ cacheId, res });
+                    resolve(res)
+                }).catch(err => {
+                    cacheSpace.cacheMap.set(cacheId, { status: "fail", err });
+                    // 事件派发
+                    cacheSpace.watcher.fail({ cacheId, err });
+                    reject(err)
+                })
+            })
+        }
+
+
+        function promiseFn1(params) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log("真正执行接口1")
+                    resolve(params)
+                }, 0)
+            })
+        }
+        function promiseFn2(params) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    console.log("真正执行接口2")
+                    resolve(params)
+                }, 0)
+            })
+        }
+
+        cahcePromise(promiseFn1, { params: "p1" }).then(res => {
+            console.log("res:", res)
+        })
+        cahcePromise(promiseFn1, { params: "p2" }).then(res => {
+            console.log("res:", res)
+        })
+        cahcePromise(promiseFn2, { params: "p11" }).then(res => {
+            console.log("res:", res)
+        })
+        cahcePromise(promiseFn2, { params: "p11", isFromCache: false }).then(res => {
+            console.log("res:", res)
+        })
+
+    </script>
+</body>
+
+</html>

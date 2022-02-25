@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二进制加法</title>
+</head>
+<body>
+    <script>
+        function fn(a,b){
+            let maxLen = Math.max(a.length,b.length) + 1; // +1是为了防止溢出
+            let aList = getList(a,maxLen);
+            let bList = getList(b,maxLen);
+            
+            let bit = 0;
+            let count = maxLen -1;
+            let resList = new Array(maxLen).fill(0);
+            while(count >= 0){
+                let res = aList[count] + bList[count] + bit;
+                if(res >= 2){
+                    bit = 1
+                } else {
+                    bit = 0
+                }
+                resList[count] = res%2;
+                count--;
+            }
+            return resList.join("")
+        }
+
+        function getList(str,len){
+            let list = new Array(len).fill(0);
+            let delta = len - str.length;
+            for(let i = delta;i <len;i++){
+                list[i] = Number(str[i - delta])
+            }
+            return list
+        }
+        console.log(fn("0101","0011"))
+    </script>
+</body>
+</html>

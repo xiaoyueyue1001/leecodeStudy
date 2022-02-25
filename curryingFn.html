@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>curryingFn</title>
+</head>
+
+<body>
+    <script>
+        // function sum(...args) {
+        //     let total = 0;
+        //     let _sum = function (...args) {
+        //         let res = args.reduce((t, a) => (t + a), 0);;
+        //         total += res;
+        //         return _sum
+        //     }
+        //     _sum.toString = function () {
+        //         return total
+        //     }
+        //     return _sum(...args)
+        // }
+        // console.log(sum(1, 2)) // 3
+
+        // console.log(sum(1, 2)(3, 4)) // 10
+
+        // console.log(sum(1, 2)(3, 4)(5, 6)) //21
+
+
+
+
+
+
+
+
+
+        // Array.prototype.selfSum = function () {
+        //     return this.reduce((t, a) => (t + a), 0)
+        // }
+        // let a = [1, 2, 3];s
+        // console.log(a.selfSum());
+        // console.log([1, 2, 3].selfSum());
+
+        // Number.prototype.selfAdd = function (a) {
+        //     return this + a
+        // }
+        // String.prototype.selfFn = function () {
+        //     return this[0]
+        // }
+
+        // let a = new Number(22)
+        // console.log(a.selfAdd(33))
+
+
+
+        //    有序链表 1->3   2->4  合并有序     
+        // class Node {
+        //     constructor(value, next, attrs) {
+        //         this.value = value;
+        //         this.next = next;
+        //         this.attrs = attrs;
+        //     }
+        // }
+        // let a = new Node(1, null, "a");
+        // let b = new Node(2, null, "b");
+        // let c = new Node(3, null, "c");
+        // let d = new Node(4, null, "d");
+        // a.next = c;
+        // b.next = d;
+
+
+        // function combine(a, b) {
+        //     let node = new Node("", null, "");
+        //     let arr = [];
+        //     while (a && b) {
+        //         if (a.value < b.value) {
+        //             let temp = a.next;
+        //             a.next = null;
+        //             add(node, a);
+        //             a = temp
+        //         } else {
+        //             let temp = b.next;
+        //             b.next = null;
+        //             add(node, b);
+        //             b = temp
+        //         }
+        //     }
+
+        //     if (a) {
+        //         let temp = a.next;
+        //         a.next = null;
+        //         add(node, a);
+        //         a = temp
+        //     }
+        //     if (b) {
+        //         let temp = b.next;
+        //         b.next = null;
+        //         add(node, b);
+        //         b = temp
+        //     }
+        //     return node.next
+        // }
+
+
+        // function add(line, node) {
+        //     while (line.next) {
+        //         line = line.next;
+        //     }
+        //     node.next
+        //     line.next = node;
+        // }
+        // console.log(combine(a, b));
+
+
+
+
+        // 链表翻转 a->b->c->d->null
+        // class Node {
+        //     constructor(value, next, attrs) {
+        //         this.value = value;
+        //         this.next = next;
+        //         this.attrs = attrs;
+        //     }
+        // }
+        // let a = new Node(1, null, "a");
+        // let b = new Node(2, null, "b");
+        // let c = new Node(3, null, "c");
+        // let d = new Node(4, null, "d");
+        // a.next = b;
+        // b.next = c;
+        // c.next = d;
+
+        // const reverseList = function (head) {
+        //     let lastNode = null;
+
+        //     const _reverseList = function (node) {
+        //         if (node && node.next) {
+        //             _reverseList(node.next);
+        //             node.next.next = node;
+        //             node.next = null;
+        //         } else {
+        //             lastNode = node
+        //         }
+        //     }
+        //     _reverseList(head);
+
+        //     return lastNode;
+        // };
+        // console.log(reverseList(a));// d->c->b->a->null
+
+
+
+        let arr = [
+            { key: "a", value: "aa" },
+            { key: "b", value: "bb" }
+        ]
+
+        let obj = arr.reduce((t, { key, value }) => ({
+            ...t,
+            [key]: value
+        }), {})
+    </script>
+</body>
+
+</html>

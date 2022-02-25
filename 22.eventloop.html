@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eventloop</title>
+</head>
+
+<body>
+    <div id="app">0000</div>
+    <script>
+        let d = document.querySelector("#app");
+        const observer = new MutationObserver(function (mutationsList, observer) {
+            // Use traditional 'for loops' for IE 11
+            for (let mutation of mutationsList) {
+                if (mutation.type === 'childList') {
+                    console.log('A child node has been added or removed.');
+                }
+                else if (mutation.type === 'attributes') {
+                    console.log('The ' + mutation.attributeName + ' attribute was modified.');
+                }
+            }
+        });
+        observer.observe(d, { attributes: true, childList: true, subtree: true })
+        setTimeout(() => {
+            d.innerHTML = "111";
+        }, 0)
+        new Promise((resolve, reject) => {
+            d.innerHTML = "222";
+            resolve();
+        }).then(() => {
+            d.innerHTML = "333";
+        })
+        console.log(1111)
+    </script>
+</body>
+
+</html>

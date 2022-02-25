@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let person = {
+            a: "aa",
+            b: "bb",
+            c:[1,2,3]
+        }
+
+        let person2 = [1,2,3,4]
+
+        function watchObj(obj) {
+            for (let key in obj) {
+                let val = obj[key];
+                // console.log("val", val);
+                Object.defineProperty(obj, key, {
+                    get() {
+                        console.log("get",key, val);
+                        return val
+                    },
+                    set(newVal) {
+                        console.log("set",key, newVal);
+                        val = newVal
+                    }
+                })
+
+            }
+        }
+        watchObj(person2)
+        person2[0] = 1111
+        person2.push(222)
+        person2[4] = 32132131
+    </script>
+</body>
+
+</html>

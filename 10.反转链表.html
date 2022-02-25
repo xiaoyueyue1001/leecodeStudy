@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反转链表</title>
+</head>
+
+<body>
+    <script>
+        // 节点类
+        class Node {
+            val = undefined;
+            next = null;
+            constructor(val, next) {
+                this.val = val;
+                this.next = next;
+            }
+        }
+
+        let node5 = new Node(5, null);
+        let node4 = new Node(4, node5);
+        let node3 = new Node(3, node4);
+        let node2 = new Node(2, node3);
+        let root = new Node(1, node2);
+
+        function fn(node) {
+            let ans = null
+            while(node){
+                ans = new Node(node.val, ans);
+                node = node.next;
+            }
+            return ans
+        }
+
+        console.log(fn(root))
+    </script>
+</body>
+
+</html>

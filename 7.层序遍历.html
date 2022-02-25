@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>层序遍历</title>
+</head>
+
+<body>
+    <script>
+        class Node {
+            constructor(val, left = null, right = null) {
+                this.val = val;
+                this.left = left;
+                this.right = right;
+            }
+        }
+        let node8 = new Node(8)
+        let node9 = new Node(9)
+        let node10 = new Node(10)
+        let node11 = new Node(11)
+        let node12 = new Node(12)
+        let node13 = new Node(13)
+        let node14 = new Node(14)
+        let node15 = new Node(15)
+
+        let node4 = new Node(4, node8, node9)
+        let node5 = new Node(5, node10, node11)
+        let node6 = new Node(6, node12, node13)
+        let node7 = new Node(7, node14, node15)
+
+        let node2 = new Node(2, node4, node5)
+        let node3 = new Node(3, node6, node7)
+
+        let node1 = new Node(1, node2, node3)
+
+
+
+        function fn(root) {
+            let res = [];
+            let deep = 0; // 当前深度
+
+            let currentdeepList = [root]; // 当前层的节点
+            let nextdeepList = []; // 下一层的节点
+            while (currentdeepList.length) {
+                res[deep] = [];
+                currentdeepList.forEach(node => {
+                    res[deep].push(node.val);
+                    if (node.left) {
+                        nextdeepList.push(node.left)
+                    }
+                    if (node.right) {
+                        nextdeepList.push(node.right)
+                    }
+                })
+                deep++;
+                currentdeepList = [...nextdeepList];
+                nextdeepList = []
+            }
+            return res
+        }
+        function fn2(root) {
+            let arr = [root];
+            let arrayIterator = arr[Symbol.iterator]();
+            let next = arrayIterator.next();
+            while (!next.done) {
+                const node = next.value;
+                if (node?.left) {
+                    arr.push(node.left)
+                }
+                if (node?.right) {
+                    arr.push(node.right)
+                }
+                console.log(next.value, next.done);
+                next = arrayIterator.next();
+            }
+            return arr
+        }
+
+        function fn3(root) {
+            let arr = [root];
+            for (let node of arr) {
+                if (node?.left) {
+                    arr.push(node.left)
+                }
+                if (node?.right) {
+                    arr.push(node.right)
+                }
+                // console.log(node)
+            }
+            return arr
+        }
+
+        //  带层级信息
+        function fn4(root) {
+            let arr = [root];
+            let deepMap = new WeakMap();
+            deepMap.set(root, 0);
+            let res = [[root]];
+            for (let node of arr) {
+                let fatherDeep = deepMap.get(node)
+                if (node?.left) {
+                    deepMap.set(node.left, fatherDeep + 1);
+                    arr.push(node.left);
+                    if (res[fatherDeep + 1]) {
+                        res[fatherDeep + 1].push(node.left);
+                    } else {
+                        res[fatherDeep + 1] = [node.left]
+                    }
+                }
+                if (node?.right) {
+                    deepMap.set(node.right, fatherDeep + 1);
+                    arr.push(node.right);
+                    if (res[fatherDeep + 1]) {
+                        res[fatherDeep + 1].push(node.right);
+                    } else {
+                        res[fatherDeep + 1] = [node.right]
+                    }
+                }
+                // console.log(node)
+            }
+            console.log("deepMap", deepMap)
+            return res
+        }
+
+        console.log(fn3(node1))
+        console.log(fn4(node1))
+    </script>
+</body>
+
+</html>

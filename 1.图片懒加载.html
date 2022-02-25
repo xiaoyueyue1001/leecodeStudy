@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片懒加载</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        img {
+            height: 200px;
+            display: block;
+        }
+
+        .container {
+            /* display: flex;
+            flex-direction: column; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="./data/images/404.png" data-src="./data/images/amsterdam-6590205_1920.jpg" alt="">
+        <img src="./data/images/404.png" data-src="./data/images/alps-6600343_1920.jpg" alt="">
+        <img src="./data/images/404.png" data-src="./data/images/alpine-ibex-6583623_1920.jpg" alt="">
+        <img src="./data/images/404.png" data-src="./data/images/alpine-aster-6607429_1920.jpg" alt="">
+        <img src="./data/images/404.png" data-src="./data/images/almonds-6583645_1920.jpg" alt="">
+    </div>
+    <script>
+        // 滚屏函数
+        var imgs = document.querySelectorAll('img');
+        lazyload(imgs);
+        window.onscroll = function () {
+            lazyload(imgs);
+        }
+
+        function lazyload(imgs) {
+            var h = window.innerHeight // 可视区域高度          
+            imgs.forEach(item => {
+                if (item.getBoundingClientRect().top < h - 50) {
+                    // 加载图片
+                    let src = item.getAttribute("data-src");
+                    item.src = src;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

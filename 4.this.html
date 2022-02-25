@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 箭头函数本身没有this和arguments,所以全部取自于定义的时候，外层作用域（全局/函数）的值，所以也不能直接修改这些值，而是要修改父级作用域的值
+         * 箭头函数的this只取决于定义的时候
+         * function，对于普通函数来说，内部的this指向函数运行时所在的对象
+        */
+        // function fn() {
+        //     console.log("fn:", arguments, this);
+        //     let innerFn = () => {
+        //         console.log("innerFn:", arguments, this);
+        //     }
+        //     innerFn("我是innerFn参数")
+        // }
+        // let a = { a: "a" };
+        // let newFn = fn.bind(a);
+        // newFn("我是fn参数")
+
+        // // function fn2(){
+        // //     console.log("fn2", arguments, this);
+        // // }
+        // let fn2 = ()=>{
+        //     console.log("fn2", this);
+        // }
+        // fn2("我是fn2参数");
+        // let obj = {}
+        // obj.fn = fn2;
+        // obj.fn("我是obj.fn参数")
+
+        // function  aaa (){
+        //     aaa = "aaa"
+        //     console.log("aaa", aaa)
+        // }
+        // aaa()
+        // let bbb = ()=>{
+        //     bbb = "bbb"
+        //     console.log("bbb", bbb) 
+        // }
+        // bbb()
+
+
+        window.name = "gl";
+        let a = {
+            name:"A",
+            h1(){
+                console.log("name",this.name);
+            },
+            h2(){
+                let s = ()=>{console.log("name",this.name)};
+                return s
+            }
+        }
+        let b = {
+            name:"B"
+        }
+
+        let h1 = a.h1;
+        a.h1();
+        h1();
+        h1.call(b);
+        h1.call();
+
+        let h2 = a.h2();
+        h2();
+        h2.call(b);
+        h2.call();
+
+    </script>
+</body>
+
+</html>

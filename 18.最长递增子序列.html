@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>18.最长递增子序列</title>
+</head>
+
+<body>
+    <script>
+        //最长递增子序列(Longest Increasing Subsequence)是指n个数的序列的最长单调递增子序列。比如，A = [1,3,6,7,9,4,10,5,6]的LIS是1 3 6 7 9 10
+
+        /**
+         * 动态规划 时间复杂度log(n*n);
+         * 我们可以定义一个 dp 数组，dp[i] 表示以 nums[i] 为最后一个元素时，最长上升子序列的数量，要想知道 dp[i]，我们必然要先从 0 ~ i - 1 元素中，查找到所有数值小于当前 nums[i] 的元素。然后再在这些元素中，找到最长上升子序列数长度最大的元素nums[j]，而我们要求的 dp[i] 就等于 dp[j] + 1。
+         * https://blog.csdn.net/xiaowangku/article/details/112399219?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164197768116780261976255%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164197768116780261976255&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-3-112399219.first_rank_v2_pc_rank_v29&utm_term=%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97&spm=1018.2226.3001.4187
+         */
+        function fn(arr) {
+            let dp = []; // count and list
+            let maxdp = 0;
+            arr.forEach((number, outIndex) => {
+                let lessIndexList = [];
+                arr.forEach((count, innerIndex) => {
+                    if (outIndex > innerIndex) {
+                        // 记录前值小于当前元素的坐标
+                        if (number > count) {
+                            lessIndexList.push(innerIndex)
+                        }
+                    }
+                })
+                if (lessIndexList.length) {
+                    // let value = Math.max(...lessIndexList.map(index => dp[index])) + 1;
+                    let lessdpList = lessIndexList.map(index => dp[index]);
+                    let maxdpObj = lessdpList.find(item=>item.count === Math.max(...lessdpList.map(dpObj=>dpObj.count)))
+                    dp.push({count:maxdpObj.count + 1,list:[...maxdpObj.list,outIndex]});
+                    // debugger
+                } else {
+                    dp.push({count:1,list:[outIndex]})
+                }
+
+
+                console.log("lessIndexList", lessIndexList);
+                console.log("lessIndexList.map(index=>dp[index])", lessIndexList.map(index => dp[index]))
+            })
+            console.log("dp", JSON.parse(JSON.stringify(dp)))
+            let LISIndex =  dp.find(item=>item.count === Math.max(...dp.map(dpObj=>dpObj.count)))?.list || []
+            return LISIndex.map(index=>arr[index]);
+        }
+
+
+        let nums = [10, 9, 2, 5, 3, 7, 101, 18,1,4,6,8,11,12,13,14]
+        console.log(fn(nums));
+        [2,3,7,18]
+    </script>
+</body>
+
+</html>

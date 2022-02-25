@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取高亮</title>
+</head>
+<body>
+    <script>
+        let str = `aasadsadsad<em>2222<em>2dsada2</em>sadsadsadsada的萨达萨达萨达萨达萨达萨达萨<em>111111111</em>sadsadsadsadadsadsadsadsadasdsadsdsa`
+
+        console.log("getTagContent(str)",getTagContent(str));
+
+
+        function getTagContent(string) {
+            let tagName = "em";
+            
+            let startTag = `<${tagName}>` ;
+            let endTag = `</${tagName}>`;
+
+            let startTagIndexs = getAllIndexInString(string,startTag).map(item=>{
+                return {
+                    index:item,
+                    type:'start'
+                }
+            });
+            let endTagIndexs = getAllIndexInString(string,endTag).map(item=>{
+                return {
+                    index:item,
+                    type:'end'
+                }
+            })
+
+            let tagIndexs = [];
+            
+            let i = 0;
+            let j = 0;
+            while( i < startTagIndexs.length && j < endTagIndexs.length ){
+                if(startTagIndexs[i].index < endTagIndexs[j].index){
+                    tagIndexs.push(startTagIndexs[i] );
+                    i++;
+                } else {
+                    tagIndexs.push(endTagIndexs[j] );
+                    j++;
+                }
+            }
+            while(i < startTagIndexs.length ){
+                tagIndexs.push(startTagIndexs[i]);
+                i++;
+            }
+            while(j < endTagIndexs.length ){
+                tagIndexs.push(endTagIndexs[j]);
+                j++;
+            }
+            return tagIndexs
+        }
+
+        
+        function  getAllIndexInString(string,key) {
+            let indexs = []
+            let index = -1;
+            while(string.indexOf(key,index + 1) !== -1){
+                index = string.indexOf(key,index + 1) 
+                indexs.push(index)
+            }
+            console.log(indexs)
+            return indexs
+        }
+    </script>
+</body>
+</html>

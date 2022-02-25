@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bigNumber</title>
+</head>
+<body>
+    <script>
+        function number2string(a){
+            let d = document.createElement("div");
+            d.innerHTML = a;
+            return d.innerHTML
+        }
+
+        function bigNumberAdd(a,b){
+            let aList = a.toString().split("");
+            let bList = b.toString().split("");
+            let resList = [];
+            let flag  = 0;
+            while(true){
+                let aa = aList.pop();
+                let bb = bList.pop();
+                let res = Number(aa||0) + Number(bb || 0) +flag
+                if(res > 9){
+                    resList.unshift(res - 10)
+                    flag = 1
+                } else {
+                    resList.unshift(res)
+                    flag = 0
+                }
+                if(!aList.length && !bList.length){
+                    break
+                }
+            }
+            return resList.join("")
+        }
+    </script>
+</body>
+</html>

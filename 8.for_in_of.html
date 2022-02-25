@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for in   for of</title>
+</head>
+<body>
+    <script>
+        // for in 可遍历对象和数组，item为key，次数在初始化时固定
+        // for of 只可遍历数组，item为元素，次数可变，取决于迭代器是否结束
+        let obj = {
+            a:"aa",
+            b:"bb",
+            c:"cc"
+        }
+        let arr = ["aaa","bbb","ccc"]
+        for(let key in obj){
+            console.log("for in obj",key)
+        }
+        for(let key in arr){
+            console.log("for in arr",key)
+        }
+        // for(let key of obj){
+        //     console.log("for of obj",key)
+        // }
+        for(let key of arr){
+            console.log("for of arr",key)
+        }
+    </script>
+</body>
+</html>
